@@ -12,16 +12,17 @@ class JSON:
         self.summary = summary
         self.name = ''
         self.index = index
-        self.json = {}
+        self.jsons = []
 
     def create_json(self):
         self.__get_name()
         for questions, articles, summary in zip(self.questions, self.articles, self.summary):
-            self.json = {}
-            evidence = {'text':articles, 'index':[self.name, [0, 1]]}
+            new_json = {}
+            evidence = [{'text':articles, 'index':[self.name, [0, 1]]}]
             context = {'questions':articles}
-            self.json = {'question': questions, 'answer': summary, 'evidence': evidence, 'context': context}
-            self.json_dump(self.json, r'my_dataset/' + self.name + str(self.index) + '.json')
+            new_json = {'question': questions, 'answer': summary, 'evidence': evidence, 'context': context}
+            self.jsons.append(new_json)
+        self.json_dump(self.jsons, r'my_dataset/' + self.name + str(self.index) + '.json')
 
     def __get_name(self):
         name_fos = re.sub(r'\d', '', self.file_name)

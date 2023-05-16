@@ -16,7 +16,8 @@ class Wiki:
         raw_article = re.sub(r'{.*}', '', raw_article)
         raw_article = re.sub(r'\s{3,}.*\s{3,}', '', raw_article)
         raw_article = re.sub(r'~', '', raw_article)
-        article = raw_article.strip()
+        article = raw_article.strip()[:-1500]
+        article = article[:article.rfind('.') + 1]
         return article
 
     def expand_pool_articles(self, name):

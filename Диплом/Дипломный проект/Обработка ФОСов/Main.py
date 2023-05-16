@@ -25,7 +25,7 @@ class Main():
             self.__split_questions(question_to_current_file)
             articles_contents, articles_summary = self.__get_wiki_articles(self.question_to_current_file, file)
             chime.success()
-            self.question_to_current_file, self.articles_contents, self.articles_summary = question_to_current_file, articles_contents, articles_summary
+            self.articles_contents, self.articles_summary = articles_contents, articles_summary
 
     def __save_index(self):
         index = open(self.index_path, 'r')
@@ -42,7 +42,7 @@ class Main():
             split_questions += [clean_questions.strip() for clean_questions in question.split('.')]
         for split_question in split_questions:
             if split_question != '':
-                clean_split_questions.append(split_question)
+                clean_split_questions.append(split_question + '?')
         self.question_to_current_file = clean_split_questions
 
     def __get_current_file_questions(self, file, number_questions = -1):
@@ -63,11 +63,10 @@ class Main():
         articles_contents, articles_summary = [], []
         for i in tqdm(range(len(articles)), desc='   - (Extract information) -   '):
             articles_contents.append([])
-            articles_summary.append([])
             for article in articles[i]:
                 results = wiki.get_wiki_articles(article)
                 articles_contents[i].append(results[0])
-                articles_summary[i].append(results[1])
+                articles_summary.append(results[1])
         chime.success()
         return articles_contents, articles_summary
 
